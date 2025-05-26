@@ -82,3 +82,4 @@ production:
   database: next_gig_production
   username: next_gig
   password: <%= ENV["NEXT_GIG_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
