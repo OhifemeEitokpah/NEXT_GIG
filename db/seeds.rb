@@ -5,7 +5,6 @@
 # db/seeds.rb
 require 'faker'
 
-# Clear existing data (optional, but keeps things idempotent)
 Booking.delete_all
 Event.delete_all
 Venue.delete_all
