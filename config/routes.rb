@@ -8,4 +8,7 @@ Rails.application.routes.draw do
 
   root "events#index"
   # Defines the root path route ("/")
+  get '/events/:id', to: 'events#show', as: 'event'
+
+  # root "posts#index"
 end
