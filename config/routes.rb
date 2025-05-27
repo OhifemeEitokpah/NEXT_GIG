@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Define health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Define root route
   root "events#index"
-  # Defines the root path route ("/")
+
+  # Define route for showing a specific event
   get '/events/:id', to: 'events#show', as: 'event'
 
-  # root "posts#index"
+  # Define nested resources for bookings within events
+  resources :events do
+    resources :bookings, only: [:create, :new]
+  end
 end
