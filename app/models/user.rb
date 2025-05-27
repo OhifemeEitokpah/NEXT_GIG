@@ -6,6 +6,6 @@ class User < ApplicationRecord
 
   has_many :venues
   has_many :bookings
-  has_many :events through: :bookings
+  has_many :events, through: :bookings
   enum role: { musician: 0, organiser: 1 }
 end

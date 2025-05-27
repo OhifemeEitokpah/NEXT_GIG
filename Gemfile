@@ -74,3 +74,8 @@ group :test do
 end
 
 gem "devise"
+
+gem 'faker', '~> 2.20'
+
+# (Optional) to silence the ostruct warning in Ruby 3.5+
+gem 'ostruct'
