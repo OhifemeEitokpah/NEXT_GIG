@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :venues
-  has_many :events
   has_many :bookings
+  has_many :events through: :bookings
   enum role: { musician: 0, organiser: 1 }
 end
