@@ -1,0 +1,33 @@
+<%# Good bootstrap list 3 responsive columns with the events%>
+<%# Each event must have: title, description, date, time, max_slots; adrress, city and country (from venues) %>
+<div class="container">
+  <h1>Events</h1>
+  <div class="row" data-controller="events-filter-list">
+    <%# Buttons for filter: This week / next week %>
+    <div class="col-md-12 mb-4">
+      <div class="btn-group" role="group" aria-label="Event Filters">
+        <button type="button" class="btn btn-outline-primary" data-action="click->events-filter-list#all" data-events-filter-list-target="allList">All</button>
+        <button type="button" class="btn btn-outline-secondary" data-action="click->events-filter-list#this_week" data-events-filter-list-target="thisWeek">This Week</button>
+        <button type="button" class="btn btn-outline-secondary" data-action="click->events-filter-list#next_week" data-events-filter-list-target="nextWeek">Next Week</button>
+      </div>
+    </div>
+    <p>Showing <%= @events.count %> events</p>
+    <div class="row" data-events-filter-list-target="list">
+    <% @events.each do |event| %>
+      <div class="col-md-4 mb-4 event-card" data-event-date="<%= event.date %>">
+        <div class="card h-100">
+            <img src="https://placehold.co/600x400" class="card-img-top" alt="<%= event.title %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= event.title %></h5>
+            <p class="card-text"><%= event.description %></p>
+            <p class="card-text"><strong>Date:</strong> <%= event.date.strftime("%B %d, %Y") %></p>
+            <p class="card-text"><strong>Time:</strong> <%= event.time.strftime("%I:%M %p") %></p>
+            <p class="card-text"><strong>Max Slots:</strong> <%= event.max_slots %></p>
+            <p class="card-text"><strong>Venue:</strong> <%= event.venue.address %>, <%= event.venue.city %>, <%= event.venue.country %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  </div>
+</div>
