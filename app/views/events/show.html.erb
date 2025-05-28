@@ -1,0 +1,32 @@
+<div style="max-width: 900px; margin: 2rem auto; display: flex; flex-wrap: wrap; gap: 20px;">
+
+  <!-- Left: Static image -->
+  <div style="flex: 1 1 300px;">
+    <img class="img-fluid img-show" src="/assets/pexels-lilartsy-1213447.jpg" />
+  </div>
+
+  <!-- Right: Event Details -->
+  <div style="flex: 2 1 500px;">
+    <h1><%= @event.title %></h1>
+
+
+    <p>
+      <strong>Date:</strong> <%= @event.date.strftime("%B %d, %Y") %><br />
+      <strong>Time:</strong> <%= @event.time.strftime("%I:%M %p") %>
+    </p>
+
+    <% if @event.venue.present? %>
+      <p><strong>Venue:</strong> <%= @event.venue.name %></p>
+      <p><strong>Address:</strong> <%= @event.venue.address %></p>
+    <% end %>
+
+    <hr>
+
+    <p><%= @event.description %></p>
+
+    <p><strong>Max Slots:</strong> <%= @event.max_slots %></p>
+
+     <a href="/" style="display: inline-block; margin-top: 1rem; width: 100%; padding: 0.5rem 1rem; border: 1px solid #28A745; border-radius: 4px; color:rgb(0, 255, 51); text-decoration: none; text-align: center;">✓ Book</a>
+  </div>
+
+</div>

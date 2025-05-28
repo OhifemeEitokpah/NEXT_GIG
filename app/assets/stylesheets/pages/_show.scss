@@ -1,0 +1,10 @@
+.img-show {
+  width: 100%;       // Makes the image take up the full width of its parent container
+  height: 100%;      // Makes the image take up the full height of its parent container
+  object-fit: cover; // Crucial: Scales the image to fill the container, cropping if necessary
+  box-sizing: border-box; // Ensures padding and border are included in the 100% width/height
+
+  // You can also add other image-related styles here if needed, e.g.,
+  // border-radius: 8px;
+  // filter: grayscale(50%);
+}
