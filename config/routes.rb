@@ -7,11 +7,9 @@ Rails.application.routes.draw do
   # Define root route
   root "events#index"
 
-  # Define route for showing a specific event
-  get '/events/:id', to: 'events#show', as: 'event'
+  # Defines the root path route ("/")
+  resources :events, only: [:index, :show] do
+    resources :bookings, only: [:create]
 
-  # Define nested resources for bookings within events
-  resources :events do
-    resources :bookings, only: [:create, :new]
   end
 end
