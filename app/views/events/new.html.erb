@@ -1,0 +1,8 @@
+<div class="container">
+  <h1> New Event</h1>
+
+  <%= render 'form', event: @event %>
+  <%= link_to 'Back', events_path, class: 'btn btn-secondary' %>
+</div>
+<%# app/views/events/_form.html.erb %>
+<%# Form should have Title, description, date, time, max slots %>
