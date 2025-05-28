@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   # Define health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Define root route
+  get "/dashboard" => "pages#dashboard"
+
   root "events#index"
 
   # Defines the root path route ("/")
