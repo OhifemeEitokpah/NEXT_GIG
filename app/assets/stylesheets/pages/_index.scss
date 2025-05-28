@@ -1,2 +1,7 @@
 // Import page-specific CSS files here.
 @import "home";
+
+body {
+  background-color: #f8f9fa; // A very light grey (Bootstrap's default 'light' background color)
+  color: #212529; // Set a default dark text color for readability on light background
+}
