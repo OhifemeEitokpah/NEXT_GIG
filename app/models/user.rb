@@ -7,5 +7,8 @@ class User < ApplicationRecord
   has_many :venues
   has_many :bookings
   has_many :events, through: :bookings
+  has_many :booked_events, through: :venues, source: :events
+  has_many :booked_bookings, through: :booked_events, source: :bookings
+
   enum role: { musician: 0, organiser: 1 }
 end

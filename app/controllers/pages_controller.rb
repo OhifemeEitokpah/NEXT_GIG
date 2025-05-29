@@ -3,6 +3,8 @@ class PagesController < ApplicationController
   end
 
   def dashboard
+    events = user.venues.map { |v| v.events }.flatten
+
   end
 
   def index

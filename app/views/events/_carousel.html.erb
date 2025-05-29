@@ -1,0 +1,45 @@
+<div id="carouselLastEvents" class="carousel slide mb-4" data-bs-ride="carousel" style="margin: 0 auto;">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselLastEvents" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselLastEvents" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselLastEvents" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <%# slide link to event path %>
+    <%= link_to event_path(@last_three[0]) do %>
+    <div class="carousel-item active">
+      <%= cl_image_tag @last_three[0].photo.key, crop: :fill, width: 900, height: 400, class: "d-block w-100 carousel-img", alt: @last_three[0].title %>
+      <div class="carousel-caption d-none d-md-block">
+        <h5><%=  @last_three[0].title%></h5>
+        <p><%=  @last_three[0].description%></p>
+      </div>
+    </div>
+    <% end %>
+    <%= link_to event_path(@last_three[0]) do %>
+    <div class="carousel-item">
+      <%= cl_image_tag @last_three[1].photo.key, crop: :fill, width: 900, height: 400, class: "d-block w-100 carousel-img", alt: @last_three[1].title %>
+      <div class="carousel-caption d-none d-md-block">
+        <h5><%=  @last_three[1].title%></h5>
+        <p><%=  @last_three[1].description%></p>
+      </div>
+    </div>
+    <% end %>
+    <%= link_to event_path(@last_three[0]) do %>
+    <div class="carousel-item">
+      <%= cl_image_tag @last_three[2].photo.key, crop: :fill, width: 900, height: 400, class: "d-block w-100 carousel-img", alt: @last_three[2].title %>
+      <div class="carousel-caption d-none d-md-block">
+        <h5><%=  @last_three[2].title%></h5>
+        <p><%=  @last_three[2].description%></p>
+      </div>
+    </div>
+  </div>
+    <% end %>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselLastEvents" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselLastEvents" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>

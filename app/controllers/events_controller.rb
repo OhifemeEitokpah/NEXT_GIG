@@ -5,6 +5,7 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.all
+    @last_three = Event.last(3)
   end
 
   def new
