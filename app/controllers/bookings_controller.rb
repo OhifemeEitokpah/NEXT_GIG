@@ -1,27 +1,35 @@
+# app/controllers/bookings_controller.rb
 class BookingsController < ApplicationController
-  before_action :set_event
-
-  def new
-    @booking = @event.bookings.build
-  end
+  # This line ENSURES a user is logged in before the 'create' action can run.
+  before_action :authenticate_user!, only: [:create]
 
   def create
-    @booking = @event.bookings.build(booking_params)
+    @event = Event.find(params[:event_id])
+    @booking = @event.bookings.new(booking_params)
+
+    # Since authenticate_user! runs first, current_user will always be present here.
     @booking.user = current_user
+
+    @booking.status = :pending # Explicitly set status to pending
+    @booking.booking_date = Time.current # Set the booking date to now
+
     if @booking.save
-      redirect_to @event, notice: 'Booking was successfully created.'
+      # No longer storing in session as guest bookings are not allowed.
+      flash[:notice] = 'Booking confirmed! Your spot is reserved.'
+      redirect_to event_path(@event)
     else
-      render :new
+      # If save fails due to validations, show errors on the same page.
+      flash.now[:alert] = "Booking failed: #{@booking.errors.full_messages.to_sentence}"
+      # Ensure @event is set for the render in case of validation errors
+      @event = Event.find(params[:event_id]) # Re-fetch @event if needed, though it should be already
+      render 'events/show', status: :unprocessable_entity
     end
   end
 
   private
 
-  def set_event
-    @event = Event.find(params[:event_id])
-  end
-
   def booking_params
-    params.require(:booking).permit(:message)
+    # Permit only number_of_tickets, as user_id and status are set by the controller.
+    params.require(:booking).permit(:number_of_tickets)
   end
 end
