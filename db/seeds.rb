@@ -97,7 +97,6 @@ event_dates = this_week + next_week
   title = "#{Faker::Music.genre} Night at #{venues.sample[:name]}"
   puts "  • Creating event #{i+1}: #{title} on #{date} at #{time.strftime('%H:%M')}"
   event = Event.create!(
-    user:        organiser,
     venue:       venues.sample,
     title:       title,
     description: Faker::Lorem.paragraph(sentence_count: 3),
