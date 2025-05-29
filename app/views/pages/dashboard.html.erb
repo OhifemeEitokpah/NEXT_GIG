@@ -1,78 +1,60 @@
 
-  <!-- Header -->
-  <div class="p-5 text-center">
-    <h1>Bookings dashboard</h1>
-  </div>
 
-  <!-- Page Content -->
+<% if current_user.role == 'musician' %>
+  <div class="container mt-4">
+    <div class="p-3 mb-2 bg-light rounded-3">
+      <h2>My Bookings</h2>
+    </div>
+  <table class="table table-bordered table-hover">
+  <thead class="table-light">
+    <tr class="sticky-top">
+      <th>Date</th>
+      <th>Venue</th>
+      <th>Event</th>
+      <th>Booking Status</th>
+    </tr>
+  </thead>
+  <tbody>
+ <% @bookings.each do |booking| %>
+    <tr>
+      <td><%= booking.event.date %></td>
+      <td><%= booking.event.venue.address %></td>
+      <td><%= booking.event.title %></td>
+      <td><%= booking.status %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% elsif current_user.role == 'organiser' %>
   <div class="container mt-4">
     <div class="p-5 mb-4 bg-light rounded-3">
-      <h2>Welcome!</h2>
-      <p class="lead">My bookings</p>
-    </div>
+      <h2>My Events</h2>
 
   <table class="table table-bordered table-hover">
   <thead class="table-light">
     <tr class="sticky-top">
       <th>#</th>
-      <th>Category</th>
+      <th>Musician/ Band name</th>
       <th>Date</th>
       <th>Event</th>
+      <th>Action</th>
       <th>Booking Status</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>John</td>
-      <td>13.07.2025</td>
-      <td>Berghain Concert</td>
-      <td>Active</td>
-    </tr>
-  </tbody>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Ola</td>
-      <td>18.08.2025</td>
-      <td>Columbiahalle Concert</td>
-      <td>Active</td>
-    </tr>
-  </tbody>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Bilal</td>
-      <td>08.10.2025</td>
-      <td>SO36 Concert</td>
-      <td>Pending</td>
-    </tr>
-  </tbody>
-</table>
-
-  <table class="table table-bordered table-hover">
-  <thead class="table-light">
-    <tr class="sticky-top">
-      <th>#</th>
-      <th>Musician name</th>
-      <th>Date</th>
-      <th>Event</th>
-      <th>Booking Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>John</td>
+      <td>The funky bunch</td>
       <td>29.11.2025</td>
-      <td>Berghain Concert</td>
-      <td><div class="input-group" >
-        <button class="btn btn-outline-success m-3" type="button">Accept</button>
-        <button class="btn btn-outline-danger m-3" type="button">Decline</button>
+      <td>Summer jam</td>
+      <td><div class="input-group justify-content-center">
+        <button class="btn btn-outline-success rounded-pill btn-lg m-2" type="button">Accept</button>
+        <button class="btn btn-outline-danger rounded-pill btn-lg m-2" type="button">Decline</button>
       </div></td>
+      <td>Accepted</td>
     </tr>
   </tbody>
-</table>
-
-
+  </table>
+<% end%>
 </div>
