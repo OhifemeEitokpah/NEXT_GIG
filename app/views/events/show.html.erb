@@ -1,32 +1,143 @@
-<div style="max-width: 900px; margin: 2rem auto; display: flex; flex-wrap: wrap; gap: 20px;">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Details | Your App Name</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+  <%= javascript_importmap_tags %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCXd/XPQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <%#= render 'layouts/header' %>
 
-  <!-- Left: Static image -->
-  <div style="flex: 1 1 300px;">
-    <img class="img-fluid img-show" src="/assets/pexels-lilartsy-1213447.jpg" />
-  </div>
-
-  <!-- Right: Event Details -->
-  <div style="flex: 2 1 500px;">
-    <h1><%= @event.title %></h1>
-
-
-    <p>
-      <strong>Date:</strong> <%= @event.date.strftime("%B %d, %Y") %><br />
-      <strong>Time:</strong> <%= @event.time.strftime("%I:%M %p") %>
-    </p>
-
-    <% if @event.venue.present? %>
-      <p><strong>Venue:</strong> <%= @event.venue.name %></p>
-      <p><strong>Address:</strong> <%= @event.venue.address %></p>
+  <main class="container py-4">
+    <% if flash[:notice].present? %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= flash[:notice] %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <% if flash[:alert].present? %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= flash[:alert] %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     <% end %>
 
-    <hr>
+    <section class="card shadow-lg border-0 mb-5 show-page-card">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-md-7">
+          <% if @event.photo.attached? %>
+            <%= image_tag @event.photo, class: "img-fluid event-detail-img", alt: "Event Image: #{@event.title}" %>
+          <% else %>
+            <%# FIXED: Corrected image_tag path to "test_pic.jpg" as it's directly in app/assets/images/ %>
+            <%= image_tag "test_pic.jpg", class: "img-fluid event-detail-img", alt: "No image available" %>
+          <% end %>
+        </div>
+        <div class="col-md-5">
+          <%# --- START DEBUGGING BLOCK FOR BOOKING ERRORS --- %>
+          <% if @booking && @booking.errors.any? %>
+            <div class="alert alert-danger">
+              <h5>Booking failed for the following reasons:</h5>
+              <ul>
+                <% @booking.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <%# --- END DEBUGGING BLOCK --- %>
+          <div class="card-body p-4 p-md-5">
+            <h1 class="card-title fw-bold event-title-underline mb-4">
+              <%= @event.title %>
+            </h1>
 
-    <p><%= @event.description %></p>
+            <div class="d-flex align-items-center mb-2">
+              <i class="fas fa-calendar-alt text-primary fa-lg me-3"></i>
+              <p class="card-text mb-0">
+                <%= @event.date.strftime("%B %d, %Y") %>
+              </p>
+            </div>
+            <div class="d-flex align-items-center mb-2">
+              <i class="fas fa-clock text-primary fa-lg me-3"></i>
+              <p class="card-text mb-0">
+                <%= @event.time.strftime("%I:%M %p") %>
+              </p>
+            </div>
 
-    <p><strong>Max Slots:</strong> <%= @event.max_slots %></p>
+            <% if @event.venue.present? %>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-map-marker-alt text-primary fa-lg me-3"></i>
+                <p class="card-text mb-0">
+                  <%= @event.venue.name %>
+                </p>
+              </div>
+              <div class="d-flex align-items-center mb-4">
+                <i class="fas fa-location-arrow text-primary fa-lg me-3"></i>
+                <p class="card-text mb-0">
+                  <%= @event.venue.address %>
+                </p>
+              </div>
+            <% end %>
 
-     <a href="/" style="display: inline-block; margin-top: 1rem; width: 100%; padding: 0.5rem 1rem; border: 1px solid #28A745; border-radius: 4px; color:rgb(0, 255, 51); text-decoration: none; text-align: center;">✓ Book</a>
-  </div>
+            <div class="d-flex align-items-center mb-4">
+              <i class="fas fa-users text-primary fa-lg me-3"></i>
+              <p class="card-text mb-0">
+                Max Slots: <span class="fw-bold"><%= @event.max_slots %></span>
+                <% if @event.available_slots > 0 %>
+                  <small class="text-success">(Spots left: <%= @event.available_slots %>!)</small>
+                <% else %>
+                  <small class="text-danger">(Full!)</small>
+                <% end %>
+              </p>
+            </div>
 
-</div>
+            <hr class="my-4">
+            <h5 class="fw-bold mb-3">About this Event:</h5>
+            <p class="card-text mb-4 text-muted event-description">
+              <%= @event.description %>
+            </p>
+
+            <div class="d-grid gap-2">
+              <% # Determine if the current visitor (logged-in or guest) has a booking %>
+              <% current_visitor_booking = @event.booking_for_current_visitor(current_user, session[:guest_bookings]) %>
+
+              <% if current_visitor_booking.present? %>
+                <button type="button" class="btn btn-outline-secondary btn-lg" disabled>
+                  <i class="fas fa-check-circle me-2"></i> Booked!
+                </button>
+                <%= link_to event_booking_path(@event, current_visitor_booking), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel your booking?" }, class: "btn btn-outline-danger" do %>
+                  <i class="fas fa-times-circle me-2"></i> Cancel Booking
+                <% end %>
+              <% elsif @event.available_slots > 0 %>
+                <%= form_with url: event_bookings_path(@event), method: :post, local: true, class: "d-grid gap-2" do |form| %>
+                  <%= form.hidden_field :number_of_tickets, value: 1 %>
+                  <button type="submit" class="btn btn-warning btn-lg book-now-btn">
+                    <i class="fas fa-ticket-alt me-2"></i> Book Your Spot!
+                  </button>
+                <% end %>
+              <% else %>
+                <button type="button" class="btn btn-secondary btn-lg" disabled>
+                  Unavailable <i class="fas fa-ban"></i>
+                </button>
+              <% end %>
+
+              <%# Ensure the "Back to All Events" link always triggers a full page navigation, important with Turbo %>
+              <%= link_to "← Back to All Events", root_path, class: "btn btn-outline-secondary", data: { turbo_frame: "_top" } %>
+            </div>
+
+            <div class="mt-4 text-center text-muted small">
+              Share the fun:
+              <a href="#" class="text-decoration-none mx-2"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-decoration-none mx-2"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-decoration-none mx-2"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%#= render 'layouts/footer' %>
+
+</body>
+</html>

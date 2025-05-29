@@ -1,0 +1,125 @@
+/* Custom Styles for Fun Show Page */
+
+/* Overall card styling */
+.show-page-card {
+  border-radius: 1rem; /* Apply the main border-radius to the card itself */
+  overflow: hidden; /* CRUCIAL: This makes content (like the image) inside the card respect its border-radius */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Enhanced shadow for a more defined look */
+}
+
+/* Event Image */
+.event-detail-img {
+  width: 100%;
+  height: 100%; /* Make image fill the height of its parent column */
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  display: block; /* Removes any extra space below the image, often from inline-block default */
+  min-height: 350px; /* Ensures image has a decent height even with minimal content */
+  /* max-height: 550px; // Keep or adjust based on desired max height */
+  border-radius: 0; /* Explicitly remove any default rounding on the image itself if not desired */
+}
+
+/* To create space between the image and the container's border */
+.show-page-card .col-md-7 {
+  padding: 1rem; /* Re-introduce padding here (adjust value as desired, e.g., 0.5rem, 1.5rem) */
+}
+
+/* Ensure the content column also has no default Bootstrap padding, we control it with card-body */
+.show-page-card .col-md-5 {
+  padding: 0;
+}
+
+/* Re-apply desired padding *inside* the card-body for the content side */
+.show-page-card .card-body {
+  padding: 2.5rem !important; /* Adjust as needed for inner spacing */
+}
+
+/* Align items stretch on the row helps columns fill vertical space */
+/* This works with the HTML class 'align-items-stretch' on the row */
+.row.align-items-stretch {
+    display: flex;
+    flex-wrap: wrap; /* Ensure it wraps on smaller screens */
+}
+
+
+/* Event Title Styling */
+.event-title-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 5px;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.event-title-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 4px;
+  background-color: #ffc107; /* Your vibrant yellow */
+  border-radius: 2px;
+}
+
+/* Icons styling */
+.d-flex.align-items-center i {
+  color: #6f42c1; /* Your distinct purple */
+  font-size: 1.3rem;
+}
+
+/* "Book Your Spot!" button */
+.book-now-btn {
+  background-color: #fd7e14; /* Your bright orange */
+  border-color: #fd7e14;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.book-now-btn:hover {
+  background-color: #e66b0a;
+  border-color: #e66b0a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Event Description */
+.event-description {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Social Sharing Icons (optional) */
+.social-share-icons a {
+    color: #6c757d;
+    font-size: 1.3rem;
+    transition: color 0.2s ease-in-out;
+}
+.social-share-icons a:hover {
+    color: #007bff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .event-detail-img {
+    /* For mobile, if the image is at the top of the card when stacked,
+       apply rounding only to the top corners of the image if 'overflow:hidden'
+       on the parent card isn't giving you the desired effect automatically.
+    */
+    border-radius: 1rem 1rem 0 0 !important; /* Apply top rounding for mobile if needed */
+    min-height: 250px; /* Slightly smaller image on mobile */
+  }
+  .show-page-card .card-body {
+    padding: 1.5rem !important;
+  }
+  .event-title-underline {
+    font-size: 2rem;
+  }
+  /* Ensure padding is consistently applied on columns for mobile too */
+  .show-page-card .col-md-7 {
+    padding: 1rem; /* Maintain padding on mobile */
+  }
+  .show-page-card .col-md-5 {
+    padding: 0;
+  }
+}
