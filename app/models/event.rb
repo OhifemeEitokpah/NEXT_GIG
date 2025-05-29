@@ -14,7 +14,6 @@ class Event < ApplicationRecord
   validates :time, presence: true
   validates :max_slots, presence: true, numericality: { only_integer: true, greater_than: 0, message: "must be a positive whole number" }
   validates :venue_id, presence: true
-  validates :user_id, presence: true
   validate :date_cannot_be_in_the_past
 
   # --- Scopes ---
