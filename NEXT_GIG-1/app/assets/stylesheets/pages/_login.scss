@@ -1,0 +1,25 @@
+// filepath: /Users/andremendes/code/dehoullie/NEXT_GIG/app/assets/stylesheets/pages/_login.scss
+// Existing styles commented out
+
+// Slide-in from right full-height modal
+.modal.fade.right .modal-dialog {
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 400px; // Adjust this value as needed for your design
+  height: 100%;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.modal.fade.right.show .modal-dialog {
+  transform: translateX(0);
+}
+
+.modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+}
