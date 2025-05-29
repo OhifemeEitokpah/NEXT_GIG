@@ -1,0 +1,41 @@
+<% if user_signed_in? %>
+<%# the button logout should be hidden, only open as options when clicks on user name %>
+<div class="dropdown me-2">
+
+  <span class="badge bg-secondary"><%= current_user.role.capitalize %></span>
+  <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <%= current_user.name %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+    <li><a class="dropdown-item" href="<%= edit_user_registration_path %>">Profile</a></li>
+    <li><a class="dropdown-item" href="<%= dashboard_path %>">Dashboard</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+  </ul>
+</div>
+<% else %>
+  <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+    Login
+  </button>
+
+  <div class="modal fade right" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content h-100 border-0 rounded-0">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Log in</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <% resource      = User.new             %>
+        <% resource_name = :user                 %>
+        <% devise_mapping = Devise.mappings[:user] %>
+        <div class="modal-body">
+          <%= render "devise/sessions/form",
+                resource:       resource,
+                resource_name:  resource_name,
+                devise_mapping: devise_mapping %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-warning mx-2">Sign-up</button>
+<% end %>
