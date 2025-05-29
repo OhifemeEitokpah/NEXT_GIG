@@ -20,15 +20,6 @@ class Event < ApplicationRecord
   scope :upcoming, -> { where('date >= ?', Date.current).order(:date, :time) }
   scope :past, -> { where('date < ?', Date.current).order(date: :desc, time: :desc) }
 
-  # --- Custom Methods & Business Logic ---
-
-  def available_slots
-    booked_tickets = bookings.where(status: [:pending, :confirmed]).sum(:number_of_tickets)
-    max_slots - booked_tickets
-  rescue StandardError
-    max_slots
-  end
-
   def date_cannot_be_in_the_past
     if date.present? && date < Date.current
       errors.add(:date, "can't be in the past")
