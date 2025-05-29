@@ -81,3 +81,5 @@ gem 'faker', '~> 2.20'
 gem 'ostruct'
 
 gem "cloudinary"
+
+gem "lucide-rails", "~> 0.5.1"

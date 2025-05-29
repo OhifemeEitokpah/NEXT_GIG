@@ -3,9 +3,8 @@
 class Event < ApplicationRecord
   # --- Associations ---
   belongs_to :venue
-  belongs_to :user, foreign_key: :user_id, class_name: 'User'
-  has_many :bookings, dependent: :destroy
-  has_many :attendees, through: :bookings, source: :user
+  has_many :bookings
+  has_many :users, through: :bookings # musicians who booked
   has_one_attached :photo
 
   # --- Validations ---

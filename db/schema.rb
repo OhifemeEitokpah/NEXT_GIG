@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_29_125125) do
+
+ActiveRecord::Schema[7.1].define(version: 2025_05_29_143857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,7 +56,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_125125) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.bigint "venue_id", null: false
     t.string "title"
     t.text "description"
@@ -65,7 +65,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_125125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
-    t.index ["user_id"], name: "index_events_on_user_id"
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
@@ -101,7 +100,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_125125) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookings", "events"
   add_foreign_key "bookings", "users"
-  add_foreign_key "events", "users"
   add_foreign_key "events", "venues"
   add_foreign_key "venues", "users"
 end
