@@ -9,6 +9,6 @@ class User < ApplicationRecord
   has_many :events, through: :bookings
   has_many :booked_events, through: :venues, source: :events
   has_many :booked_bookings, through: :booked_events, source: :bookings
-
+  has_many :notifications, dependent: :destroy
   enum role: { musician: 0, organiser: 1 }
 end
