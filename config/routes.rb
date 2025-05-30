@@ -14,9 +14,13 @@ Rails.application.routes.draw do
     resources :bookings, only: [:new, :create, :destroy]
   end
 
+  resources :bookings, only: [:update]
+
+
   resources :notifications, only: [] do
     collection do
       patch :mark_all_read
     end
   end
+
 end

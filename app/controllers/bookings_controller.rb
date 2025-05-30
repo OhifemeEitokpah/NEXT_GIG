@@ -31,18 +31,26 @@ class BookingsController < ApplicationController
   end
 
   def update
-    if @booking.update(status: params[:booking][:status])
-            Notification.create!(
-        user:      @booking.user,            # the musician
-        action:    "booking_#{@booking.status}",
-        notifiable: @booking
-      )
-      redirect_to bookings_path, notice: "Booking #{@booking.status.humanize.downcase}."
-    else
-      flash.now[:alert] = @booking.errors.full_messages.to_sentence
-      render :edit
-    end
+  @booking = Booking.find(params[:id])
+
+  # Set status (choose one approach)
+  new_status = params[:booking]&.dig(:status) ||
+               (params[:commit] == "Accept" ? "accepted" : "declined")
+
+  if @booking.update(status: new_status)
+    # Notify the musician
+    Notification.create!(
+      user:       @booking.user,
+      action:     "booking_#{@booking.status}",
+      notifiable: @booking
+    )
+
+    redirect_to dashboard_path, notice: "Booking #{@booking.status.humanize.downcase}."
+  else
+    flash.now[:alert] = @booking.errors.full_messages.to_sentence
+    render :dashboard
   end
+end
 
   private
 
