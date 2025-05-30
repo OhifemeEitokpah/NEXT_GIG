@@ -1,0 +1,38 @@
+<div class="dropdown">
+  <button class="btn position-relative text-white" data-bs-toggle="dropdown">
+    <%= lucide_icon("bell") %>
+    <% if @notifications.any? %>
+      <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+        <%= @notifications.count %>
+      </span>
+    <% end %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <% if @notifications.any? %>
+      <% @notifications.each do |n| %>
+        <li class="dropdown-item">
+          <%# build a human message based on n.action %>
+          <% case n.action %>
+          <% when "booking_requested" %>
+            🎤 <%= link_to "#{n.notifiable.user.name} requested “#{n.notifiable.event.title}”", dashboard_path %>
+          <% when "booking_accepted" %>
+            ✅ Your spot at <%= link_to n.notifiable.event.title, dashboard_path %> was accepted
+          <% when "booking_declined" %>
+            ❌ Your spot at <%= link_to n.notifiable.event.title, dashboard_path %> was declined
+          <% end %>
+          <br><small class="text-muted"><%= time_ago_in_words(n.created_at) %> ago</small>
+        </li>
+      <% end %>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <%= button_to "Mark all as read",
+                      mark_all_read_notifications_path,
+                      method: :patch,
+                      remote: true,
+                      class: "dropdown-item text-center" %>
+      </li>
+    <% else %>
+      <li class="dropdown-item text-muted">No new notifications</li>
+    <% end %>
+  </ul>
+</div>

@@ -13,6 +13,7 @@
     <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
   </ul>
 </div>
+<%= render "shared/notifications_dropdown" %>
 <% else %>
   <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">
     Login

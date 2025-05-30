@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'notifications/mark_all_read'
   devise_for :users
 
   # Define health check route
@@ -11,5 +12,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   resources :events, only: [:index, :show, :new, :edit, :update] do
     resources :bookings, only: [:new, :create, :destroy]
+  end
+
+  resources :notifications, only: [] do
+    collection do
+      patch :mark_all_read
+    end
   end
 end
