@@ -1,5 +1,3 @@
-# app/models/event.rb
-
 class Event < ApplicationRecord
   # --- Associations ---
   belongs_to :venue
@@ -20,29 +18,5 @@ class Event < ApplicationRecord
   scope :upcoming, -> { where('date >= ?', Date.current).order(:date, :time) }
   scope :past, -> { where('date < ?', Date.current).order(date: :desc, time: :desc) }
 
-  # --- Custom Methods & Business Logic ---
 
-  def available_slots
-    booked_tickets = bookings.where(status: [:pending, :confirmed]).sum(:number_of_tickets)
-    max_slots - booked_tickets
-  rescue StandardError
-    max_slots
-  end
-
-  def date_cannot_be_in_the_past
-    if date.present? && date < Date.current
-      errors.add(:date, "can't be in the past")
-    end
-  end
-
-  # Finds a booking for the current visitor (now only for logged-in users).
-  # The session_bookings_hash parameter is no longer used for logic here.
-  def booking_for_current_visitor(current_user_obj, _session_bookings_hash = nil) # _session_bookings_hash is ignored
-    # Only look for a booking if a user is logged in
-    if current_user_obj.present?
-      booking = bookings.find_by(user: current_user_obj, status: [:pending, :confirmed])
-      return booking if booking.present?
-    end
-    nil # If no user is logged in or no booking found, return nil
-  end
 end

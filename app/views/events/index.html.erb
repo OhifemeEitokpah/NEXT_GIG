@@ -32,8 +32,8 @@
                 <strong><%= lucide_icon("clock-#{event.time.strftime('%-I')}") %></strong>
                 <%= event.time.strftime("%-I %p") %>
               </p>
-              <p class="card-text"><strong><%= lucide_icon('list-todo') %></strong> <%= event.max_slots %> slots</p>
-              <p class="card-text"><strong><%= lucide_icon('store') %></strong> <%= event.venue.address %>, <%= event.venue.city %>, <%= event.venue.country %></p>
+              <p class="card-text"><strong><%= lucide_icon('list-music') %></strong> <%= event.max_slots %> slots</p>
+              <p class="card-text"><strong><%= lucide_icon('map-pinned') %></strong> <%= event.venue.address %>, <%= event.venue.city %>, <%= event.venue.country %></p>
             </div>
           </div>
         <% end %>

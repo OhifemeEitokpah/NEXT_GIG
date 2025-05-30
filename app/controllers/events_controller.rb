@@ -1,7 +1,15 @@
 class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
+    @available_slots = @event.max_slots - @event.bookings.where.not(status: 'declined').count
+    # Define if the user has already booked this event
+    @has_booked = @event.bookings.exists?(user: current_user) if user_signed_in?
+    # return booked status
+    @booking_status = @event.bookings.find_by(user: current_user).status if user_signed_in? && @has_booked
+    # Define if the event is in the past
+    # @is_past = @event.date < Date.current || (@event.date == Date.current && @event.time < Time.current)
   end
+
 
   def index
     @events = Event.all
