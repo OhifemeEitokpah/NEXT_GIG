@@ -26,6 +26,18 @@ class BookingsController < ApplicationController
     end
   end
 
+  def update
+    @booking = Booking.find(params[:id])
+    @event = @booking.event
+    @booking.status = params[:status] if params[:status].present?
+    if @booking.save
+      redirect_to dashboard_path, notice: 'Booking status was successfully updated.'
+    else
+      flash.now[:alert] = @booking.errors.full_messages.to_sentence
+      render :dashboard
+    end
+  end
+
   private
 
   def booking_params
