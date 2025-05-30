@@ -1,0 +1,12 @@
+<li class="dropdown-item" id="<%= dom_id(notification) %>">
+  <% case notification.action %>
+  <% when "booking_requested" %>
+    🎤 <%= link_to "#{notification.notifiable.user.name} requested “#{notification.notifiable.event.title}”", dashboard_path %>
+  <% when "booking_accepted" %>
+    ✅ Your spot at <%= link_to notification.notifiable.event.title, dashboard_path %> was accepted
+  <% when "booking_declined" %>
+    ❌ Your spot at <%= link_to notification.notifiable.event.title, dashboard_path %> was declined
+  <% end %>
+  <br>
+  <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+</li>
