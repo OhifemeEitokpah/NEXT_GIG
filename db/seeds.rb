@@ -4,11 +4,8 @@ require 'open-uri'
 
 puts "🔄 Starting seed process..."
 
-Event.all.each do |event|
-  event.photo.purge if event.photo.attached?
-end
-
 # Clear existing data
+Notification.delete_all
 Booking.delete_all
 Event.delete_all
 Venue.delete_all
